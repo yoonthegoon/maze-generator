@@ -84,7 +84,6 @@ def dfs(current_x: int, current_y: int, board: Board):
             break
 
         next_cell = random.choice(unvisited)
-        unvisited.remove(next_cell)
 
         match next_cell:
             case current_cell.north:
