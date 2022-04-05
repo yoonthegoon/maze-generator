@@ -6,7 +6,7 @@ class Cell:
         self.x, self.y = x, y
         self.north, self.south, self.east, self.west = 4*(None,)
         self.visited = False
-        self.walls = 0x1111
+        self.walls = 0b1111
 
     def neighbors(self):
         return [i for i in (self.north, self.south, self.east, self.west) if i]
@@ -32,43 +32,14 @@ class Board:
         self.board = board
 
     def show(self):
+        nodes = '╋┣┫┃┻┗┛╹┳┏┓╻━╺╸ '
+
         print(f'┌{self.width*"─"}┐')
         for y in range(self.height):
             print('│', end='')
             for x in range(self.width):
-                match self.board[y][x].walls:
-                    case 0x0000:
-                        print('╋', end='')
-                    case 0x0001:
-                        print('┣', end='')
-                    case 0x0010:
-                        print('┫', end='')
-                    case 0x0011:
-                        print('┃', end='')
-                    case 0x0100:
-                        print('┻', end='')
-                    case 0x0101:
-                        print('┗', end='')
-                    case 0x0110:
-                        print('┛', end='')
-                    case 0x0111:
-                        print('╹', end='')
-                    case 0x1000:
-                        print('┳', end='')
-                    case 0x1001:
-                        print('┏', end='')
-                    case 0x1010:
-                        print('┓', end='')
-                    case 0x1011:
-                        print('╻', end='')
-                    case 0x1100:
-                        print('━', end='')
-                    case 0x1101:
-                        print('╺', end='')
-                    case 0x1110:
-                        print('╸', end='')
-                    case 0x1111:
-                        print(' ', end='')
+                print(nodes[self.board[y][x].walls], end='')
+
             print('│')
         print(f'└{self.width*"─"}┘')
 
@@ -87,17 +58,17 @@ def dfs(current_x: int, current_y: int, board: Board):
 
         match next_cell:
             case current_cell.north:
-                current_cell.walls -= 0x1000
-                next_cell.walls -= 0x0100
+                current_cell.walls -= 0b1000
+                next_cell.walls -= 0b0100
             case current_cell.south:
-                current_cell.walls -= 0x0100
-                next_cell.walls -= 0x1000
+                current_cell.walls -= 0b0100
+                next_cell.walls -= 0b1000
             case current_cell.east:
-                current_cell.walls -= 0x0010
-                next_cell.walls -= 0x0001
+                current_cell.walls -= 0b0010
+                next_cell.walls -= 0b0001
             case current_cell.west:
-                current_cell.walls -= 0x0001
-                next_cell.walls -= 0x0010
+                current_cell.walls -= 0b0001
+                next_cell.walls -= 0b0010
 
         dfs(next_cell.x, next_cell.y, board)
 
@@ -112,4 +83,4 @@ def main(w: int, h: int):
 
 
 if __name__ == '__main__':
-    main(4, 4)
+    main(12, 8)
