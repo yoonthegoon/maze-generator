@@ -1,6 +1,9 @@
 import random
 
 
+NORTH, SOUTH, EAST, WEST = 8, 4, 2, 1
+
+
 class Cell:
     def __init__(self, x: int, y: int):
         self.x, self.y = x, y
@@ -58,17 +61,17 @@ def dfs(current_x: int, current_y: int, board: Board):
 
         match next_cell:
             case current_cell.north:
-                current_cell.walls -= 0b1000
-                next_cell.walls -= 0b0100
+                current_cell.walls -= NORTH
+                next_cell.walls -= SOUTH
             case current_cell.south:
-                current_cell.walls -= 0b0100
-                next_cell.walls -= 0b1000
+                current_cell.walls -= SOUTH
+                next_cell.walls -= NORTH
             case current_cell.east:
-                current_cell.walls -= 0b0010
-                next_cell.walls -= 0b0001
+                current_cell.walls -= EAST
+                next_cell.walls -= WEST
             case current_cell.west:
-                current_cell.walls -= 0b0001
-                next_cell.walls -= 0b0010
+                current_cell.walls -= WEST
+                next_cell.walls -= EAST
 
         dfs(next_cell.x, next_cell.y, board)
 
